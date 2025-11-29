@@ -17,6 +17,7 @@ public class GameBase : MonoBehaviour
     public Slider TimeBar;
     public bool IsStarted = false;
     private int _score;
+    public bool finished = false;
     public int Score
     {
         get => _score;
@@ -44,6 +45,7 @@ public class GameBase : MonoBehaviour
 
     public IEnumerator GameReady()
     {
+        finished = false;
         Timer = 0;
         TimeBar.value = 0;
         Fade.gameObject.SetActive(true);
@@ -79,5 +81,6 @@ public class GameBase : MonoBehaviour
         {
             NextObj.SetActive(true);
         }
+        finished = true;
     }
 }

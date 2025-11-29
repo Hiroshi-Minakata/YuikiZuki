@@ -22,6 +22,12 @@ public class Fuyu : MonoBehaviour
 
     void Update()
     {
+        if (gameBase.finished)
+        {
+            gameBase.Fade.gameObject.SetActive(false);
+            gameBase.Title.text = "何か出てきましたね！\n開発者に見せてみて！";
+        }
+
         if (!gameBase.IsStarted)
             return;
 
