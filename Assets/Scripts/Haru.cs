@@ -8,11 +8,19 @@ public class Haru : MonoBehaviour
     [SerializeField] private GameObject NextObj;
     [SerializeField] private GameBase gameBase;
     [SerializeField] private ParticleSystem watage;
+    [SerializeField] private float volumeThreshold = 0.1f;
+
+    private MicrophoneInput microphoneInput;
+    private float lastBlowTime;
+    private float blowCooldown = 0.1f;
 
     void Start()
     {
         gameBase.PrevObj = PrevObj;
         gameBase.NextObj = NextObj;
+
+        microphoneInput = gameObject.AddComponent<MicrophoneInput>();
+
         StartCoroutine(StartSequence());
     }
 
@@ -21,8 +29,14 @@ public class Haru : MonoBehaviour
         if (!gameBase.IsStarted)
             return;
 
-        ++gameBase.Score;
-        watage.Play();
+        float volume = microphoneInput.GetVolume();
+
+        if (volume > volumeThreshold && Time.time - lastBlowTime > blowCooldown)
+        {
+            ++gameBase.Score;
+            watage.Play();
+            lastBlowTime = Time.time;
+        }
     }
 
     private IEnumerator StartSequence()
